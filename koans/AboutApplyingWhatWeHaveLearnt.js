@@ -106,28 +106,85 @@ describe("About Applying What We Have Learnt", function() {
     expect(ingredientCount['mushrooms']).toBe(2);
   });
 
-  /*********************************************************************************/
-  /* UNCOMMENT FOR EXTRA CREDIT */
-  /*
+/*Extra Credit Section*/
+
   it("should find the largest prime factor of a composite number", function () {
-  
+    
+    function largestPrimeFactorOf(n){    
+      var f = 2, loop = true;
+      while( loop === true ){
+        n>f ? n%f ? f++ : n=n/f : loop = false;
+      }
+      return n;
+    }
+    
+    expect( largestPrimeFactorOf(1224) ).toBe(17);
   });
 
   it("should find the largest palindrome made from the product of two 3 digit numbers", function () {
+    function isPalin(str){
+      str = str.split('');
+      var len = str.length, result = true, offset=0;
+      if(len%2){ offset=1; }
+      for(var i=0; i<(len-1-offset)/2; i++){
+        if(str[i]!==str[len-1-i]){ result = false; break; } 
+      }
+    return result;
+    }
     
+    function largestPalinProd(n){
+      var x=Math.pow(10,n)-1, y=Math.pow(10,n)-1, loop=true, result=0, temp;
+      while( loop === true ){
+        temp = x*y;
+        if(isPalin(String(temp))){temp>result?result=temp:null;}
+        y===Math.pow(10,n-1) ? x===Math.pow(10,n-1) ? loop=false : ( x--, y=Math.pow(10,n)-1 ) : y--;
+      }
+      return result;
+    }
+    
+    expect( largestPalinProd(3) ).toBe(906609);
   });
 
   it("should find the smallest number divisible by each of the numbers 1 to 20", function () {
-      
-    
+    var primes = [2,3,5,7,11,13,17,19]
+
+    function multiply(){
+      var result = 1;
+      for(var i = 0; i<arguments.length; i++){
+        result = result * arguments[i];
+      }
+      return result;
+    }
+
+    expect( multiply.apply(this,primes) ).toBe(9699690);
   });
 
   it("should find the difference between the sum of the squares and the square of the sums", function () {
-    
+    function sqrSumDiff(n){
+      return ((3*Math.pow(n,2)+2*n)*(1-Math.pow(n,2)))/12;
+    }
+    expect( sqrSumDiff(5) ).toBe(-170);
   });
 
   it("should find the 10001st prime", function () {
 
+    function nthPrime(n){
+      var results = [2], num = 3;
+      while(results.length !== n){
+        var prime = true;
+        for(var i=0; i<results.length; i++){
+          if(num % results[i] === 0){
+            prime = false;
+            break;
+          }
+          // divide num by primes in result till prime || !prime
+        }
+        prime? (results.push(num++)) : num++;
+      }
+      return results[n-1];
+    }
+
+    expect( nthPrime(10001) ).toBe(104743);
   });
-  */
+  
 });
